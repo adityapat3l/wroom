@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: "postgres"
+
+
+
+  f1-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SSH_AUTH_DOCK=/ssh-age
+    volumes:
+      - .:/app
+      - ~/.gitconfig:/etc/gitconfig
+      - ~/.ssh:/root/.ssh
+    stdin_open: true
+    tty: true
+    entrypoint: /bin/bash
+
+
+
