@@ -36,8 +36,6 @@ def yield_races_in_year_list(year):
     return race_names
 
 
-
-
 races = yield_races_in_year_list(2020)
 
 with open('race_names.txt', 'w') as fout:
@@ -64,18 +62,3 @@ def get_driver_finishing_standings():
 
 if __name__ == "__main__":
     print(fetch_day(2020))
-
-
-
-#
-# plotting.setup_mpl()
-#
-# ff1.Cache.enable_cache('/mnt/c/git/f1-app/cache')  # optional but recommended
-#
-# race = ff1.get_session(2020, 'Turkish Grand Prix', 'R')
-# laps = race.load_laps()
-#
-# lec = laps.pick_driver('LEC')
-# ham = laps.pick_driver('HAM')
-#
-# print(ham.head())

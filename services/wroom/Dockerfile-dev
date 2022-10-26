@@ -1,0 +1,21 @@
+# base image
+FROM python:3.9
+# set working directory
+WORKDIR /usr/src/app
+#ENV PYTHONPATH=/usr/src/app
+
+RUN apt-get -y update
+RUN apt-get -y install git
+
+# add and install requirements
+COPY ./requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r requirements.txt
+# add app
+COPY . /usr/src/app
+
+ENV FLASK_APP=project/__init__.py
+# run server
+CMD python manage.py run -h 0.0.0.0
+
+#CMD ["python", "mangage.py", "run", "--host=0.0.0.0"]
+#CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
