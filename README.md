@@ -1,6 +1,11 @@
 
 # Getting Started
 
+For M1 Macs:
+```shell
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+```
+
 ## F1-app
 ```
 docker-compose build f1-app
@@ -15,8 +20,9 @@ docker-compose -f docker-compose.yml up -d --build
 ```
 
 
-## Logs
+## Test & Logs
 ```
+docker-compose -f docker-compose.yml run wroom python manage.py test
 docker-compose -f docker-compose.yml logs
 ```
 
