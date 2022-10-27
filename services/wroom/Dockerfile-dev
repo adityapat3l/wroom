@@ -2,20 +2,31 @@
 FROM python:3.9
 # set working directory
 WORKDIR /usr/src/app
-#ENV PYTHONPATH=/usr/src/app
+ENV PYTHONPATH=/usr/src/app
 
 RUN apt-get -y update
 RUN apt-get -y install git
 
+RUN apt-get -y install postgresql && \
+    apt-get -y install netcat-openbsd && \
+    apt-get -y install manpages-dev && \
+    apt-get -y install libpq-dev
+#    apk add --virtual build-deps gcc python-dev musl-dev && \
+#    apk add postgresql && \
+#    apt-get install netcat-openbsd
+
 # add and install requirements
 COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
+
+# add entrypoint.sh
+COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
+
 # add app
 COPY . /usr/src/app
 
-ENV FLASK_APP=project/__init__.py
-# run server
-CMD python manage.py run -h 0.0.0.0
+RUN chmod +x /usr/src/app/entrypoint.sh
+CMD ["/usr/src/app/entrypoint.sh"]
 
-#CMD ["python", "mangage.py", "run", "--host=0.0.0.0"]
-#CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+#ENV FLASK_APP=project/__init__.py
