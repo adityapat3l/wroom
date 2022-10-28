@@ -22,7 +22,7 @@ docker-compose -f docker-compose.yml up -d --build
 
 ## Test & Logs
 ```
-docker-compose -f docker-compose.yml run wroom python manage.py test
+docker-compose -f docker-compose.yml run wroom pytest
 docker-compose -f docker-compose.yml logs
 ```
 
