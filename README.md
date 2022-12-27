@@ -20,6 +20,16 @@ docker-compose -f docker-compose.yml up -d --build
 ```
 
 
+## Working with app and db in shell
+```
+docker-compose -f docker-compose.yml run wroom flask shell
+
+>>> app
+>>> db
+>>> exit()
+```
+
+
 ## Test & Logs
 ```
 docker-compose -f docker-compose.yml run wroom pytest

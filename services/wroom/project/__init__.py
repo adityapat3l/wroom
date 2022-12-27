@@ -1,32 +1,23 @@
-from flask import Flask, jsonify
+from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 
-app = Flask(__name__)
+def create_app(script_info=None):
+    app = Flask(__name__)
 
-app_settings = os.getenv('APP_SETTINGS')  # new
-app.config.from_object(app_settings)
+    app_settings = os.getenv('APP_SETTINGS')
+    app.config.from_object(app_settings)
 
-db = SQLAlchemy(app)
+    db.init_app(app)
 
+    from project.api.users import users_blueprint
+    app.register_blueprint(users_blueprint)
 
-class User(db.Model):
+    @app.shell_context_processor
+    def ctx():
+        return {'app': app, 'db': db}
 
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(128), nullable=False)
-    email = db.Column(db.String(128), nullable=False)
-    active = db.Column(db.Boolean(), default=True, nullable=False)
+    return app
 
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
-
-
-@app.route('/', methods=['GET'])
-def ping_pong():
-    return jsonify({
-        'status': 'success',
-        'message': 'pong!'
-    })
