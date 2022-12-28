@@ -1,6 +1,6 @@
 import os
 from flask import current_app
-from project import app
+# from project import create_app
 
 
 def test_app_is_development(development_app):
@@ -10,12 +10,11 @@ def test_app_is_development(development_app):
 
 
 def test_app_is_testing(testing_app):
-    assert app.config['SECRET_KEY'] == 'my_precious'
-    assert app.config['TESTING']
-    assert not app.config['PRESERVE_CONTEXT_ON_EXCEPTION']
-    assert app.config['SQLALCHEMY_DATABASE_URI'] == os.environ.get('DATABASE_TEST_URL')
+    assert testing_app.config['SECRET_KEY'] == 'my_precious'
+    assert testing_app.config['TESTING']
+    assert testing_app.config['SQLALCHEMY_DATABASE_URI'] == os.environ.get('DATABASE_TEST_URL')
 
 
 def test_app_is_production(production_app):
-    assert app.config['SECRET_KEY'] == 'my_precious'
-    assert not app.config['TESTING']
+    assert production_app.config['SECRET_KEY'] == 'my_precious'
+    assert not production_app.config['TESTING']

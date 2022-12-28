@@ -1,4 +1,4 @@
-import unittest
+# import unittest
 
 
 from flask.cli import FlaskGroup
@@ -16,15 +16,15 @@ def recreate_db():
     db.create_all()
     db.session.commit()
 
-@cli.command()
-def test():
-    """ Runs the tests without code coverage"""
+# @cli.command()
+# def test():
+#     """ Runs the tests without code coverage"""
 
-    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
-    if result.wasSuccessful():
-        return 0
-    return 1
+#     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+#     result = unittest.TextTestRunner(verbosity=2).run(tests)
+#     if result.wasSuccessful():
+#         return 0
+#     return 1
 
 
 if __name__ == '__main__':

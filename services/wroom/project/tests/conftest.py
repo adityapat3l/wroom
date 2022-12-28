@@ -1,7 +1,8 @@
-from project import app
+from project import create_app
 from project import db as _db
 import pytest
 
+app = create_app()
 
 @pytest.fixture()
 def testing_app():
@@ -34,5 +35,11 @@ def production_app():
 
 @pytest.fixture()
 def test_client(testing_app):
-    return app.test_client()
+    return testing_app.test_client()
+
+
+@pytest.fixture()
+def test_users(testing_app):
+    return testing_app.test_client()
+
 
