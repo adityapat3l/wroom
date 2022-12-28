@@ -12,8 +12,8 @@ def create_app(script_info=None):
 
     db.init_app(app)
 
-    from project.api.users import users_blueprint
-    app.register_blueprint(users_blueprint)
+    from project.api.users import wroom_blueprint
+    app.register_blueprint(wroom_blueprint)
 
     @app.shell_context_processor
     def ctx():
