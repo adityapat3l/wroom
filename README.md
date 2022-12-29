@@ -35,6 +35,10 @@ docker-compose -f docker-compose.yml run wroom flask shell
 docker-compose -f docker-compose.yml run wroom pytest
 docker-compose -f docker-compose.yml logs
 ```
+OR
+```
+docker-compose -f docker-compose.yml run wroom python manage.py test
+```
 
 ## DB
 

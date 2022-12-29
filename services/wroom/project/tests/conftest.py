@@ -8,15 +8,11 @@ app = create_app()
 def testing_app():
 
     app.config.from_object('project.config.TestingConfig')
-    yield app
-
-
-@pytest.fixture(scope='session')
-def db(testing_app):
+    
     with app.app_context():
         _db.create_all()
         _db.session.commit()
-        yield _db
+        yield app
         _db.session.remove()
         _db.drop_all()
 
