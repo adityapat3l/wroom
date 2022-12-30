@@ -1,4 +1,6 @@
 import json
+from project import db
+from project.api.models import User
 
 def test_add_user(test_client):
     response = test_client.post('/users',
@@ -60,3 +62,18 @@ def test_add_user_duplicate_email(test_client):
     assert response.status_code == 400
     assert 'Sorry. That email already exists.' in data['message']
     assert data['status'] == 'fail'
+    
+    
+def test_single_user(test_client):
+    """Ensure get single user behaves correctly."""
+    user = User(username='aditya', email='apatel@example.org')
+    db.session.add(user)
+    db.session.commit()
+    response = test_client.get(f'/users/{user.id}')
+    data = json.loads(response.data.decode())
+    assert response.status_code == 200
+    assert 'aditya' in data['data']['username']
+    assert 'apatel@example.org' in data['data']['email']
+    assert 'success' in data['status']
+    
+    

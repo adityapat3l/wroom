@@ -1,7 +1,9 @@
 from project import create_app
 from project import db as _db
 import pytest
+import os
 
+os.environ['APP_SETTINGS'] = 'project.config.TestingConfig'
 app = create_app()
 
 @pytest.fixture()

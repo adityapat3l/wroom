@@ -22,15 +22,12 @@ def test():
     """Runs the tests."""
     pytest.main(["-s", "project/tests"])
 
-# @cli.command()
-# def test():
-#     """ Runs the tests without code coverage"""
-
-#     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
-#     result = unittest.TextTestRunner(verbosity=2).run(tests)
-#     if result.wasSuccessful():
-#         return 0
-#     return 1
+@cli.command()
+def seed_db():
+    """Seeds the database."""
+    db.session.add(User(username='apatel', email="apatel@example.com"))
+    db.session.add(User(username='apatel1', email="apatel1@example.org"))
+    db.session.commit()
 
 
 if __name__ == '__main__':
