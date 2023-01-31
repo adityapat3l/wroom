@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+#  postgres:
+#    image: "postgres"
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_HOST_AUTH_METHOD=trust
+
+
+  f1-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SSH_AUTH_DOCK=/ssh-age
+    volumes:
+      - .:/app
+      - ~/.gitconfig:/etc/gitconfig
+      - ~/.ssh:/root/.ssh
+    stdin_open: true
+    tty: true
+    entrypoint: /bin/bash
+
+  wroom:
+    build:
+      context: ./services/wroom
+      dockerfile: Dockerfile-prod
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=project/__init__.py
+      - FLASK_DEBUG=0
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgresql://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_TEST_URL=postgresql://postgres:postgres@users-db:5432/users_test
+#    entrypoint: python manage.py run -h 0.0.0.0
+    depends_on:
+      - users-db
+    expose:
+      - 5000
+
+  users-db:
+    build:
+      context: ./services/wroom/project/db
+      dockerfile: Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  nginx:
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile-prod
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - wroom
