@@ -1,9 +1,9 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 from project import db
 from project.api.models import User
 from sqlalchemy import exc
 
-wroom_blueprint = Blueprint('users', __name__)
+wroom_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
 @wroom_blueprint.route('/wroom/ping', methods=['GET'])
 def ping_pong():
@@ -12,6 +12,16 @@ def ping_pong():
         'message': 'pong!'
     })
 
+@wroom_blueprint.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        db.session.add(User(username=username, email=email))
+        db.session.commit()
+
+    users = User.query.all()
+    return render_template('index.html', users=users)
 
 @wroom_blueprint.route('/users', methods=['POST'])
 def add_user():

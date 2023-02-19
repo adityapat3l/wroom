@@ -9,4 +9,3 @@ def test_alive(test_client):
     assert response.status_code == 200
     assert 'pong!' in data['message']
     assert 'success' in data['status']
-
