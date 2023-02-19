@@ -3,14 +3,14 @@ from project import db as _db
 import pytest
 import os
 
-os.environ['APP_SETTINGS'] = 'project.config.TestingConfig'
+os.environ["APP_SETTINGS"] = "project.config.TestingConfig"
 app = create_app()
+
 
 @pytest.fixture()
 def testing_app():
+    app.config.from_object("project.config.TestingConfig")
 
-    app.config.from_object('project.config.TestingConfig')
-    
     with app.app_context():
         _db.create_all()
         _db.session.commit()
@@ -21,13 +21,13 @@ def testing_app():
 
 @pytest.fixture()
 def development_app():
-    app.config.from_object('project.config.DevelopmentConfig')
+    app.config.from_object("project.config.DevelopmentConfig")
     return app
 
 
 @pytest.fixture()
 def production_app():
-    app.config.from_object('project.config.ProductionConfig')
+    app.config.from_object("project.config.ProductionConfig")
     return app
 
 
@@ -39,5 +39,3 @@ def test_client(testing_app):
 @pytest.fixture()
 def test_users(testing_app):
     return testing_app.test_client()
-
-

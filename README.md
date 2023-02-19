@@ -49,6 +49,19 @@ OR
 docker-compose -f docker-compose.yml run wroom python manage.py test
 ```
 
+## Test coverage
+
+```shell
+docker-compose -f docker-compose.yml run wroom python manage.py cov
+```
+
+## Formatting
+
+```shell
+black --line-length=120 services 
+docker-compose -f docker-compose.yml run wroom flake8 project
+```
+
 ## DB
 
 Recreate DB and hop into postgres
