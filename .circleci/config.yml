@@ -5,6 +5,8 @@ jobs:
       - image: cimg/base:2023.02
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: The First Step
           command: |
@@ -14,4 +16,9 @@ jobs:
           name: The Second Step
           command: |
             ls -al
-            echo '^^^The files in your repo^^^'
+            echo '^^^The files in your repo^^^' 
+      - run:
+          name: Run tests
+          command: |
+            docker-compose -f docker-compose.yml up
+            docker-compose -f docker-compose.yml run wroom python manage.py test
