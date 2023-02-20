@@ -1,14 +1,17 @@
 version: 2.1
-
 jobs:
   build:
-    working_directory: /services
     docker:
-      - image: docker:23.0.1-git
+      - image: cimg/base:2023.02
     steps:
       - checkout
-      - setup_remote_docker
-      run:
-        name: Run tests
-        command: |
-          docker-compose -f ./docker-compose.test.yml up
+      - run:
+          name: The First Step
+          command: |
+            echo 'Hello World!'
+            echo 'This is the delivery pipeline'
+      - run:
+          name: The Second Step
+          command: |
+            ls -al
+            echo '^^^The files in your repo^^^'
