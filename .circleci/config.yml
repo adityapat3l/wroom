@@ -7,12 +7,11 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      
-      - restore_cache:
-          keys:
-            - v1-{{ .Branch }}
-          paths:
-            - /caches/app.tar
+      - run:
+          name: The First Step
+          command: |
+            echo 'Hello World!'
+            echo 'This is the delivery pipeline'
       - run:
           name: The Second Step
           command: |
@@ -22,7 +21,3 @@ jobs:
           name: Run tests
           command: |
             docker-compose -f docker-compose.yml run wroom python manage.py test
-      - save_cache:
-          key: v1-{{ .Branch }}-{{ epoch }}
-          paths:
-            - /caches/app.tar
